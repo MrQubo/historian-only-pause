@@ -796,6 +796,10 @@ var machines = {
 			{
 				if (x < optionData.iconSize + 1)
 				{
+					if (!this.recipe.enabled)
+					{
+						this.recipe.enabled = true;
+					}
 					/* if (!this.recipe.alwayson)
 					 * {
 					 *     this.recipe.enabled = !this.recipe.enabled;
@@ -842,7 +846,6 @@ var machines = {
 		if (!this.recipe.unlocked)
 		{
 			this.recipe.unlocked = true;
-			this.recipe.enabled = true;
 			for (var j = 0; j < this.recipe.inputs.length; j++)
 			{
 				if (!data.oElements[this.recipe.inputs[j].type].known)
