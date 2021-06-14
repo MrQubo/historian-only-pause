@@ -1150,56 +1150,15 @@ var machines = {
 				machines.machineMaxout(this.target.recipe.machine);
 			}
 		}
-		if (this.target.max)
-		{
-			this.mouseHandler(null, this.x + 90, 0, "mouseup");
-		}
-		else
-		{
-			this.mouseHandler(null, this.x + 10 + 40 * this.target.slider, 0, "mouseup");
-		}
-	},
-	sliderRegionMouseHandler: function (pane, x, y, type)
-	{
-		x -= this.x;
-		y -= this.y;
-		var sliderMoved = false;
-		if (this.drag && type == "mousemove")
-		{
-			if (this.target.upped && x < 100)
-			{
-				sliderMoved = true;
-			}
-		}
-		else if (type == "mousedown")
-		{
-			this.drag = true;
-			machines.drag = this;
-		}
-		else if (type == "mouseup")
-		{
-			this.drag = false;
-			var temp = this.target;
-			if (x >= 100)
-			{
-				if (this.target.upped < this.target.upgrades.length)
-				{
-					panes.lastClickedPane = this;
-					paymentPane.preparePayment(this.target.upgrades[this.target.upped].costs, x, y, pane, this);
-				}
-			}
-			else if (this.target.upped)
-			{
-				sliderMoved = true;
-			}
-		}
-		if (sliderMoved)
-		{
+
+		var setSliderX = x => {
+		/* if (sliderMoved)
+		 * { */
 			if (x <= 10)
 			{
 				this.target.slider = 0;
 			}
-			else if (x <= 90)
+			else if (x < 90)
 			{
 				this.target.slider = Math.max(0, (x - 10)) / 40;
 			}
@@ -1218,6 +1177,54 @@ var machines = {
 			{
 				this.target.max = newValue;
 			}
+		/* } */
+		};
+		if (this.target.max)
+		{
+			setSliderX(90);
+		}
+		else if (this.target.min)
+		{
+			setSliderX(10);
+		}
+		else
+		{
+			setSliderX(10 + 40 * this.target.slider);
+		}
+	},
+	sliderRegionMouseHandler: function (pane, x, y, type)
+	{
+		x -= this.x;
+		y -= this.y;
+		/* var sliderMoved = false; */
+		if (this.drag && type == "mousemove")
+		{
+			/* if (this.target.upped && x < 100)
+			 * {
+			 *     sliderMoved = true;
+			 * } */
+		}
+		else if (type == "mousedown")
+		{
+			this.drag = true;
+			machines.drag = this;
+		}
+		else if (type == "mouseup")
+		{
+			this.drag = false;
+			var temp = this.target;
+			if (x >= 100)
+			{
+				if (this.target.upped < this.target.upgrades.length)
+				{
+					panes.lastClickedPane = this;
+					paymentPane.preparePayment(this.target.upgrades[this.target.upped].costs, x, y, pane, this);
+				}
+			}
+			/* else if (this.target.upped)
+			 * {
+			 *     sliderMoved = true;
+			 * } */
 		}
 	},
 	sliderRegionDraw: function (ctx)
